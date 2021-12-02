@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 
 interface Props {}
 
-export default function index({}: Props): ReactElement {
+export default function Index({}: Props): ReactElement {
   const router = useRouter()
   const dateV1 = () => {
       router.push({

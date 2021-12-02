@@ -10,11 +10,20 @@ import PickersDay, {
 } from "@mui/lab/PickersDay";
 import isSameDay from "date-fns/isSameDay";
 import { Button } from '@mui/material';
-
+import SvgIcon from '@mui/material/SvgIcon';
+import { useRouter } from 'next/router'
 
 interface Props {}
 
-export default function dateV2({}: Props): ReactElement {
+function HomeIcon(props) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+    </SvgIcon>
+  );
+}
+
+export default function DateV2({}: Props): ReactElement {
   const [startDate, setStartDate] = React.useState(null);
   const [endDate, setEndDate] = React.useState(null);
 
@@ -90,10 +99,18 @@ export default function dateV2({}: Props): ReactElement {
   const sendDate = () =>{
     console.log(startDate, "to", endDate)
   }
-
-
+  const router = useRouter()
+  const home = () => {
+    router.push({
+     pathname: '/'
+   })
+ }
   return (
-    <div className={Theme.center}>
+    <>
+    <div style={{margin:'10px 20px', cursor:'pointer'}}>
+      <HomeIcon fontSize="large" onClick={home}/>
+    </div>
+    <div  className={Theme.centerHorizonal}>
       <h1 style={{margin:'0'}}>DateV2</h1>
       <h3 style={{margin:'10px 0 20px 0'}}> without Date Range Picker⚡️</h3>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -121,5 +138,6 @@ export default function dateV2({}: Props): ReactElement {
     </LocalizationProvider>
     <div style={{paddingTop:"20px"}}><Button variant="contained" onClick={sendDate}>Send</Button></div>
     </div>
+    </>
   );
 }

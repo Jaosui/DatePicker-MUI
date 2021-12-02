@@ -5,7 +5,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "predeploy": "npm run build && next export",
+    "deploy": "firebase deploy"
   },
   "dependencies": {
     "@date-io/date-fns": "^1.3.13",
