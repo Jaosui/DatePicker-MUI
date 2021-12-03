@@ -23,9 +23,9 @@ export default function Index({}: Props): ReactElement {
   return (
     <div className={Theme.center}>
       <Stack direction="row" spacing={2}>
-        <Button variant="contained" onClick={dateV1}>
+        {/* <Button variant="contained" onClick={dateV1}>
           date V1
-        </Button>
+        </Button> */}
         <Button variant="contained"  onClick={dateV2}>
           date V2
         </Button>
