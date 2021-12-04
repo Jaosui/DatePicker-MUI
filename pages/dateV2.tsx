@@ -12,6 +12,7 @@ import isSameDay from "date-fns/isSameDay";
 import { Button } from '@mui/material';
 import SvgIcon from '@mui/material/SvgIcon';
 import { useRouter } from 'next/router'
+import Alert from '@mui/material/Alert';
 
 interface Props {}
 
@@ -26,6 +27,7 @@ function HomeIcon(props) {
 export default function DateV2({}: Props): ReactElement {
   const [startDate, setStartDate] = React.useState(null);
   const [endDate, setEndDate] = React.useState(null);
+  const [errorDate, setErrorDate] = React.useState(false);
 
   // const birthday = addDays(new Date(), 3);
   const pickDate = startDate;
@@ -43,6 +45,10 @@ export default function DateV2({}: Props): ReactElement {
   const highlightedDays: HighlightedDay[] = [
     {
       date: pickDate,
+      styles: styles1
+    },
+    {
+      date: endDate,
       styles: styles1
     }
   ];
@@ -92,36 +98,54 @@ export default function DateV2({}: Props): ReactElement {
       />
     );
   };
+  const dateToDMY = (date) => {
+    var d = date.getDate();
+    var m = date.getMonth() + 1; //Month from 0 to 11
+    var y = date.getFullYear();
+    return  (d <= 9 ? '0' + d : d) + '/' + (m<=9 ? '0' + m : m) + '/' + y
+}
 
-  
-
-  
   const sendDate = () =>{
     console.log(startDate, "to", endDate)
+    const date1 = startDate.toLocaleDateString('en-GB')
+    const date2 = endDate.toLocaleDateString('en-GB')
+    if(date2 > date1){
+      console.log('success')
+      console.log(date1, 'to', date2)
+      setErrorDate(false)
+    } else {
+      console.log('error:Start Date is Greater than End Date.')
+      setErrorDate(true)
+    }
   }
+
   const router = useRouter()
   const home = () => {
     router.push({
      pathname: '/'
    })
  }
+
   return (
     <>
     <div style={{margin:'10px 20px', cursor:'pointer'}}>
       <HomeIcon fontSize="large" onClick={home}/>
     </div>
     <div  className={Theme.centerHorizonal}>
+      {errorDate && <Alert severity="error">Start Date is Greater than End Date. Please check your input data </Alert>}
       <h1 style={{margin:'0'}}>DateV2</h1>
       <h3 style={{margin:'10px 0 20px 0'}}> without Date Range Picker⚡️</h3>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
         label="Start Date"
-        renderDay={managePickerDayFirst}
+        // renderDay={managePickerDayFirst}
+        renderDay={managePickerDayLast}
         value={startDate}
         onChange={(newValue) => {
           setStartDate(newValue);
         }}
         renderInput={(params) => <TextField {...params} />}
+        inputFormat="dd/MM/yyyy"
       />
       <h5>To</h5>
       <DatePicker
@@ -134,6 +158,7 @@ export default function DateV2({}: Props): ReactElement {
           setEndDate(newValue);
         }}
         renderInput={(params) => <TextField {...params} />}
+        inputFormat="dd/MM/yyyy"
       />
     </LocalizationProvider>
     <div style={{paddingTop:"20px"}}><Button variant="contained" onClick={sendDate}>Send</Button></div>
