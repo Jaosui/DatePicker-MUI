@@ -28,6 +28,7 @@ export default function DateV2({}: Props): ReactElement {
   const [startDate, setStartDate] = React.useState(null);
   const [endDate, setEndDate] = React.useState(null);
   const [errorDate, setErrorDate] = React.useState(false);
+  const [successDate, setSuccessDate] = React.useState(false);
 
   // const birthday = addDays(new Date(), 3);
   const pickDate = startDate;
@@ -98,12 +99,6 @@ export default function DateV2({}: Props): ReactElement {
       />
     );
   };
-  const dateToDMY = (date) => {
-    var d = date.getDate();
-    var m = date.getMonth() + 1; //Month from 0 to 11
-    var y = date.getFullYear();
-    return  (d <= 9 ? '0' + d : d) + '/' + (m<=9 ? '0' + m : m) + '/' + y
-}
 
   const sendDate = () =>{
     console.log(startDate, "to", endDate)
@@ -113,9 +108,11 @@ export default function DateV2({}: Props): ReactElement {
       console.log('success')
       console.log(date1, 'to', date2)
       setErrorDate(false)
+      setSuccessDate(true)
     } else {
       console.log('error:Start Date is Greater than End Date.')
       setErrorDate(true)
+      setSuccessDate(false)
     }
   }
 
@@ -133,6 +130,7 @@ export default function DateV2({}: Props): ReactElement {
     </div>
     <div  className={Theme.centerHorizonal}>
       {errorDate && <Alert severity="error">Start Date is Greater than End Date. Please check your input data </Alert>}
+      {successDate && <Alert severity="success">Sent Successfully</Alert>}
       <h1 style={{margin:'0'}}>DateV2</h1>
       <h3 style={{margin:'10px 0 20px 0'}}> without Date Range Picker⚡️</h3>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
