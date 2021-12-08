@@ -66,7 +66,7 @@ export default function DateV2() {
   };
 
 //style of endtDate Picking
-  const managePickerDayLast = () => {
+  const managePickerDayLast = ( date,selectedDates,pickersDayProps) => {
     const matchedStyles = highlightedDays.reduce((a, v) => {
       console.log('a', a) //{}
       console.log('v', v) //startDate
